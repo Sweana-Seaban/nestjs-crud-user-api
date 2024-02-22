@@ -16,8 +16,11 @@ import { JwtGuard } from 'src/auth/guard';
 import { UserService } from './user.service';
 import { AdminGuard } from './guard';
 import { UpdateUserRequestDto } from './dto/request/UpdateUserRequest.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 //every route requires a token
+
+@ApiTags('User')
 @UseGuards(JwtGuard)
 @Controller('user')
 export class UserController {
