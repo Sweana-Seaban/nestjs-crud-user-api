@@ -64,13 +64,14 @@ export class AuthService {
     userId: number,
     email: string,
     isAdmin: boolean,
-  ): Promise<{ access_token: string }> {
+  ): Promise<string> {
     const payload = { sub: userId, email, isAdmin };
     const secret = this.configService.get('JWT_SECRET');
     const token = await this.jwt.signAsync(payload, {
       expiresIn: '15m',
       secret: secret,
     });
-    return { access_token: token };
+    return token;
+    // return { access_token: token };
   }
 }
