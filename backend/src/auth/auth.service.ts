@@ -15,7 +15,7 @@ export class AuthService {
     private configService: ConfigService,
   ) {}
   async signup(signuprequestDto: SignUpRequestDto) {
-    console.log(signuprequestDto, 'dto');
+    // console.log(signuprequestDto, 'dto');
 
     //generate password hash
     const hash = await argon.hash(signuprequestDto.password);
@@ -28,7 +28,7 @@ export class AuthService {
           isAdmin: signuprequestDto.isAdmin,
         },
       });
-      console.log(user);
+      // console.log(user);
       delete user.hash;
       //return saved user
       return this.signToken(user.id, user.email, user.isAdmin);

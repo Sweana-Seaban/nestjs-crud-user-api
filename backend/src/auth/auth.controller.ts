@@ -22,7 +22,7 @@ export class AuthController {
     description: 'User cannot signup.Try again!',
   })
   signup(@Body() signupDetails: SignUpRequestDto) {
-    console.log(signupDetails);
+    // console.log(signupDetails);
     return this.authService.signup(signupDetails);
   }
 
@@ -32,9 +32,12 @@ export class AuthController {
     @Req() req: Request,
     @Res() res: Response,
   ) {
-    
     const token = await this.authService.signin(signinDetails);
-    res.cookie('ACCESS_TOKEN', token);
+    console.log(signinDetails);
+    res.cookie('ACCESS_TOKEN', token, {
+      // httpOnly: true, // Cookie is inaccessible to JavaScript (prevents XSS)
+      maxAge: 3600000,
+    });
     return res.send({ access_token: token });
   }
 }

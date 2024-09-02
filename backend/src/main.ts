@@ -8,16 +8,16 @@ import * as cookieParser from 'cookie-parser';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   // const configService = app.get(ConfigService);
+  app.use(cookieParser());
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
     }),
   );
-  app.use(cookieParser());
   const corsOptions: CorsOptions = {
     origin: 'http://localhost:3001', // Replace with the address of your React app
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    // credentials: true,
+    credentials: true,
   };
   // Enable CORS with the specified options
   app.enableCors(corsOptions);

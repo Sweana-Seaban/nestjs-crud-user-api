@@ -24,21 +24,25 @@ import { Request } from 'express';
 //every route requires a token
 
 @ApiTags('User')
-@UseGuards(JwtGuard)
+// @UseGuards(JwtGuard)
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
 
   @Get('me')
-  // @UseInterceptors(CheckCookieExistsInterceptor)
-  getMe(@GetUser() user: User) {
+  @UseInterceptors(CheckCookieExistsInterceptor)
+  getMe(@GetUser() user: User, @Req() req: Request) {
+    console.log('from request cookies', req.cookies.ACCESS_TOKEN);
+    console.log('from controller');
+    console.log('selected user', user);
+
     return user;
   }
 
   @UseGuards(AdminGuard)
   @Get()
-  getAllUsers(@Req() req: Request) {
-    console.log('request', req.cookies.ACCESS_TOKEN);
+  getAllUsers() {
+    // console.log('request', req.cookies.ACCESS_TOKEN);
     return this.userService.findAll();
   }
 

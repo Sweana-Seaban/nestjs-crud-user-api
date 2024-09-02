@@ -25,7 +25,7 @@ export class AdminGuard implements CanActivate {
       const payload = await this.jwtService.verifyAsync(token, {
         secret: secret,
       });
-      console.log(payload.isAdmin);
+      // console.log(payload.isAdmin);
       if (payload.isAdmin === true)
         // request['user'] = payload;
         return true;

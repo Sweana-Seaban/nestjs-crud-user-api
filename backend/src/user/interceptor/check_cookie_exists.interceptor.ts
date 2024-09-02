@@ -17,8 +17,7 @@ export class CheckCookieExistsInterceptor implements NestInterceptor {
     next: CallHandler,
   ): Promise<Observable<any>> {
     const request = context.switchToHttp().getRequest();
-    console.log('cookie', request);
-
+    console.log('cookie from interceptor', request.cookies);
     const access_token = request.cookies.ACCESS_TOKEN;
     if (!access_token) {
       throw new UnauthorizedException('Session expired! Please signin again.');

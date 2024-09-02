@@ -22,7 +22,7 @@ export class UserService {
 
   async edit(id: number, updateUserDetails: UpdateUserRequestDto) {
     console.log('Inside edit');
-    console.log(updateUserDetails);
+    // console.log(updateUserDetails);
     let hash;
     if (updateUserDetails.password) {
       hash = await argon.hash(updateUserDetails.password);
