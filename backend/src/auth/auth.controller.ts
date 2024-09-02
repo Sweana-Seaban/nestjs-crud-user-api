@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Post, Req, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpRequestDto } from './dto/request/SignUpRequest.dto';
 import { SignInRequestDto } from './dto/request/SignInRequest.dto';
@@ -7,7 +7,7 @@ import {
   ApiCreatedResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -27,9 +27,14 @@ export class AuthController {
   }
 
   @Post('signin')
-  async signin(@Body() signinDetails: SignInRequestDto, @Res() res: Response) {
+  async signin(
+    @Body() signinDetails: SignInRequestDto,
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
+    
     const token = await this.authService.signin(signinDetails);
-    res.cookie('ACCESS_TOKEN', token, { maxAge: 0 });
+    res.cookie('ACCESS_TOKEN', token);
     return res.send({ access_token: token });
   }
 }

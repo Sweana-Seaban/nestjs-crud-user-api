@@ -1,3 +1,4 @@
+import { CheckCookieExistsInterceptor } from './interceptor/check_cookie_exists.interceptor';
 import { CheckIdExistsInterceptor } from './interceptor/check_id_exists.interceptor';
 import {
   Body,
@@ -7,6 +8,7 @@ import {
   Param,
   ParseIntPipe,
   Put,
+  Req,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -17,6 +19,7 @@ import { UserService } from './user.service';
 import { AdminGuard } from './guard';
 import { UpdateUserRequestDto } from './dto/request/UpdateUserRequest.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { Request } from 'express';
 
 //every route requires a token
 
@@ -25,14 +28,17 @@ import { ApiTags } from '@nestjs/swagger';
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
+
   @Get('me')
+  // @UseInterceptors(CheckCookieExistsInterceptor)
   getMe(@GetUser() user: User) {
     return user;
   }
 
   @UseGuards(AdminGuard)
   @Get()
-  getAllUsers() {
+  getAllUsers(@Req() req: Request) {
+    console.log('request', req.cookies.ACCESS_TOKEN);
     return this.userService.findAll();
   }
 
